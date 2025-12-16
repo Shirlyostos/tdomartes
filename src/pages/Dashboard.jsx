@@ -21,7 +21,8 @@ export default function Dashboard() {
   const fetchTasks = async () => {
     try {
       const response = await taskAPI.getTasks();
-      setTasks(response.data);
+      // Aseguramos que 'tasks' sea siempre un array. Si response.data no es un array, usamos [].
+      setTasks(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error al cargar tareas:', error);
       toast.error('Error al cargar las tareas');
@@ -131,7 +132,7 @@ export default function Dashboard() {
   };
 
   // Filtrar tareas por búsqueda
-  const filteredTasks = tasks.filter(task =>
+  const filteredTasks = (tasks || []).filter(task =>
     task.author.toLowerCase().includes(searchTerm.toLowerCase()) ||
     task.text.toLowerCase().includes(searchTerm.toLowerCase())
   );
