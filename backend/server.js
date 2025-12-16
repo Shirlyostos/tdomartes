@@ -1,12 +1,13 @@
 const express = require('express');
 const cors = require('cors');
 const fs = require('fs');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-const DB_PATH = './db.json';
+const DB_PATH = path.join(__dirname, 'db.json');
 
 const readDB = () => JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
 const writeDB = (data) => fs.writeFileSync(DB_PATH, JSON.stringify(data, null, 2));
